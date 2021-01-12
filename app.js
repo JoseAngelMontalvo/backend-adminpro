@@ -1,9 +1,19 @@
 //Required
 var express = require("express");
 var mongoose = require("mongoose");
+var bodyParser = require("body-parser");
+
+var app = express();
+
+//body-parser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 //Inicializar variables
-var app = express();
+
+var appRoutes = require("./routes/app");
+var userRoutes = require("./routes/user");
+var loginRoutes = require("./routes/login");
 
 //Conexion a la BBDD
 mongoose.connection.openUri(
@@ -15,12 +25,10 @@ mongoose.connection.openUri(
 );
 
 //rutas
-app.get("/", (req, res, next) => {
-  res.status(200).json({
-    ok: true,
-    mensaje: "Petición realizada correctamente",
-  });
-});
+app.use("/login", loginRoutes);
+app.use("/user", userRoutes);
+app.use("/", appRoutes);
+
 //escuchar peticiaones
 app.listen(3000, () => {
   console.log(
