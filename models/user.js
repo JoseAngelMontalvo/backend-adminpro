@@ -35,6 +35,10 @@ const userSchema = new Schema({
     default: "USER_ROLE",
     enum: rolesValidos,
   },
+  google: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 userSchema.plugin(uniqueValidator, { message: "El {PATH} ha de ser único" });
